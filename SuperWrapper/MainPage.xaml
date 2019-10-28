@@ -1,0 +1,34 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SuperWrapper"
+             x:Class="SuperWrapper.MainPage">
+
+    <Grid
+        BackgroundColor="Aqua">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        
+        <StackLayout
+            Grid.Column="0"
+            Orientation="Vertical">
+            <Image
+                HeightRequest="50"
+                Aspect="AspectFit"
+                x:Name="GmailButton"
+                Source="gmail.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="GmailButton_OnClicked"/>
+                </Image.GestureRecognizers>
+            </Image>
+        </StackLayout>
+        
+        <WebView
+            x:Name="MainWebView"
+            Grid.Column="1"/>
+        
+    </Grid>
+
+</ContentPage>
