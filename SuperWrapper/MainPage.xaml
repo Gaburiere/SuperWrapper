@@ -2,6 +2,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:local="clr-namespace:SuperWrapper"
+             xmlns:customRenderers="clr-namespace:SuperWrapper.CustomRenderers;assembly=SuperWrapper"
              x:Class="SuperWrapper.MainPage">
 
     <Grid
@@ -15,6 +16,7 @@
             Grid.Column="0"
             Orientation="Vertical">
             <Image
+                HorizontalOptions="Center"
                 HeightRequest="50"
                 Aspect="AspectFit"
                 x:Name="GmailButton"
@@ -23,10 +25,22 @@
                     <TapGestureRecognizer Tapped="GmailButton_OnClicked"/>
                 </Image.GestureRecognizers>
             </Image>
+            <Image
+                HorizontalOptions="Center"
+                HeightRequest="50"
+                Aspect="AspectFit"
+                x:Name="WhatsAppButton"
+                Source="whatsapp.png">
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="WhatsAppButton_OnClicked"/>
+                </Image.GestureRecognizers>
+            </Image>
         </StackLayout>
         
-        <WebView
+        <customRenderers:SuperWebView
             x:Name="MainWebView"
+            Source="https://web.whatsapp.com/"
+            UserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36"
             Grid.Column="1"/>
         
     </Grid>

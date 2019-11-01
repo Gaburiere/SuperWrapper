@@ -16,7 +16,16 @@ namespace SuperWrapper
 
         private void GmailButton_OnClicked(object sender, EventArgs e)
         {
-            this.MainWebView.Source = "https://mail.google.com/";
+            var webViewSource = new UrlWebViewSource();
+            webViewSource.Url = "https://mail.google.com/";
+            this.MainWebView.Source = webViewSource;
+        }
+
+        private void WhatsAppButton_OnClicked(object sender, EventArgs e)
+        {
+            var webViewSource = new UrlWebViewSource();
+            webViewSource.Url = "https://web.whatsapp.com/";
+            this.MainWebView.Source = webViewSource;
         }
     }
 }
