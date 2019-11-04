@@ -1,6 +1,10 @@
+using System;
+using System.Diagnostics;
+using System.IO;
 using Foundation;
 using SuperWrapper.CustomRenderers;
 using SuperWrapper.macOS.CustomRenderers;
+using UserNotifications;
 using WebKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
@@ -8,7 +12,7 @@ using Xamarin.Forms.Platform.MacOS;
 [assembly: ExportRenderer (typeof(SuperWebView), typeof(SuperWebViewRenderer))]
 namespace SuperWrapper.macOS.CustomRenderers
 {
-	public class SuperWebViewRenderer : ViewRenderer<SuperWebView, WKWebView>
+	public class SuperWebViewRenderer : ViewRenderer<SuperWebView, WKWebView>, IWKScriptMessageHandler
 	{
 		private WKWebView _wkWebView;
 		protected override void OnElementChanged(ElementChangedEventArgs<SuperWebView> e)
@@ -17,8 +21,35 @@ namespace SuperWrapper.macOS.CustomRenderers
 
 			if (this.Control == null)
 			{
-				var config = new WKWebViewConfiguration();
-				this._wkWebView = new WKWebView(this.Frame, config);
+//				var tryGet = NSBundle.MainBundle.ResourceUrl.TryGetResource(new NSString(Script), out var urlValue);
+//				if(!tryGet || urlValue == null)
+//					throw new Exception($"i'm not able to find resource: {Script}");
+
+				string script;
+				var path = NSBundle.MainBundle.BundlePath + "/Contents/Resources/UserScript.js";
+				using (var reader = new StreamReader(path))
+				{
+					script = reader.ReadToEnd();
+				}
+				
+				var userScriptCode = new NSString(script);
+				var userScript = new WKUserScript(userScriptCode, WKUserScriptInjectionTime.AtDocumentStart, false);
+				var configuration = new WKWebViewConfiguration();
+				configuration.UserContentController.AddUserScript(userScript);
+				configuration.UserContentController.AddScriptMessageHandler(this, "notify");
+
+//            let userScriptURL = Bundle.main.url(forResource: "UserScript", withExtension: "js")!
+//            let userScriptCode = try! String(contentsOf: userScriptURL)
+//            let userScript = WKUserScript(source: userScriptCode, injectionTime: .atDocumentStart, forMainFrameOnly: false)
+//            let configuration = WKWebViewConfiguration()
+//            configuration.userContentController.addUserScript(userScript)
+//            configuration.userContentController.add(self, name: "notify")
+//
+//            let documentURL = Bundle.main.url(forResource: "Document", withExtension: "html")!
+//            let webView = WKWebView(frame: view.frame, configuration: configuration)
+//            webView.loadFileURL(documentURL, allowingReadAccessTo: documentURL)
+				
+				this._wkWebView = new WKWebView(this.Frame, configuration);
 				this.SetNativeControl(this._wkWebView);
 			}
 			if (e.NewElement != null)
@@ -27,7 +58,39 @@ namespace SuperWrapper.macOS.CustomRenderers
 				if(source != null)
 					this.Control.LoadRequest(new NSUrlRequest(new NSUrl(source.Url)));
 				this.Control.CustomUserAgent = e.NewElement.UserAgent;
+				
 			}
+		}
+
+		public void DidReceiveScriptMessage(WKUserContentController userContentController, WKScriptMessage message)
+		{
+			var content = new UNMutableNotificationContent();
+			content.Title = "Super Wrapper Notifica!";
+			content.Body = message.Body.ToString();
+
+			var request = UNNotificationRequest.FromIdentifier(Guid.NewGuid().ToString(), content, null);
+			UNUserNotificationCenter.Current.AddNotificationRequest(request, error =>
+			{
+				if (error != null)
+				{
+					Debug.WriteLine(error.Code);
+					Debug.WriteLine(error.LocalizedFailureReason);
+				}
+			});
+
+//			let content = UNMutableNotificationContent()
+//			content.title = "WKWebView Notification Example"
+//			content.body = message.body as! String
+//
+//			let uuidString = UUID().uuidString
+//			let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: nil)
+//
+//			let notificationCenter = UNUserNotificationCenter.current()
+//			notificationCenter.add(request) { (error) in
+//				if error != nil {
+//					NSLog(error.debugDescription)
+//				}
+//			}
 		}
 	}
 }

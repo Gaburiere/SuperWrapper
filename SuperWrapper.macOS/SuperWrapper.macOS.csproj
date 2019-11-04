@@ -121,6 +121,9 @@
     <BundleResource Include="Resources\gmail.png" />
   </ItemGroup>
   <ItemGroup>
+    <BundleResource Include="Resources\UserScript.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </BundleResource>
     <BundleResource Include="Resources\whatsapp.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />

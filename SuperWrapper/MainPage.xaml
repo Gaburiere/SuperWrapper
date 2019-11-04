@@ -19,21 +19,8 @@
                 HorizontalOptions="Center"
                 HeightRequest="50"
                 Aspect="AspectFit"
-                x:Name="GmailButton"
-                Source="gmail.png">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="GmailButton_OnClicked"/>
-                </Image.GestureRecognizers>
-            </Image>
-            <Image
-                HorizontalOptions="Center"
-                HeightRequest="50"
-                Aspect="AspectFit"
                 x:Name="WhatsAppButton"
                 Source="whatsapp.png">
-                <Image.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="WhatsAppButton_OnClicked"/>
-                </Image.GestureRecognizers>
             </Image>
         </StackLayout>
         
