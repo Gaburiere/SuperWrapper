@@ -18,15 +18,13 @@ namespace SuperWrapper.macOS
 
         public override void DidFinishLaunching(NSNotification notification)
         {
-//            UNUserNotificationCenter.Current.RequestAuthorization(UNAuthorizationOptions.Alert, (b, error) =>
+//            var notificationCenter = UNUserNotificationCenter.Current;
+//            notificationCenter.RequestAuthorization(UNAuthorizationOptions.Alert|UNAuthorizationOptions.Badge|UNAuthorizationOptions.Sound, (b, error) =>
 //            {
-//                Debug.WriteLine("ERROR IN REQUEST AUTHORIZATION");
+//                Debug.WriteLine(b
+//                    ? "Notification permission granted"
+//                    : $"Notification permission denied because of: {error.LocalizedDescription}");
 //            });
-            
-            //UNUserNotificationCenter.current().requestAuthorization(options: [.alert]) { (granted, error) in
-            // Enable or disable features based on authorization.
-
-            
             
             Xamarin.Forms.Forms.Init();
             LoadApplication(new App());

@@ -2,6 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using Foundation;
+using Newtonsoft.Json;
 using SuperWrapper.CustomRenderers;
 using SuperWrapper.macOS.CustomRenderers;
 using UserNotifications;
@@ -64,33 +65,30 @@ namespace SuperWrapper.macOS.CustomRenderers
 
 		public void DidReceiveScriptMessage(WKUserContentController userContentController, WKScriptMessage message)
 		{
-			var content = new UNMutableNotificationContent();
-			content.Title = "Super Wrapper Notifica!";
-			content.Body = message.Body.ToString();
-
-			var request = UNNotificationRequest.FromIdentifier(Guid.NewGuid().ToString(), content, null);
-			UNUserNotificationCenter.Current.AddNotificationRequest(request, error =>
-			{
-				if (error != null)
-				{
-					Debug.WriteLine(error.Code);
-					Debug.WriteLine(error.LocalizedFailureReason);
-				}
-			});
-
-//			let content = UNMutableNotificationContent()
-//			content.title = "WKWebView Notification Example"
-//			content.body = message.body as! String
+//			var content = new UNMutableNotificationContent();
+//			content.Title = "Super Wrapper Notifica!";
+//			content.Body = message.Body.ToString();
 //
-//			let uuidString = UUID().uuidString
-//			let request = UNNotificationRequest(identifier: uuidString, content: content, trigger: nil)
-//
-//			let notificationCenter = UNUserNotificationCenter.current()
-//			notificationCenter.add(request) { (error) in
-//				if error != nil {
-//					NSLog(error.debugDescription)
+//			var request = UNNotificationRequest.FromIdentifier(Guid.NewGuid().ToString(), content, null);
+//			UNUserNotificationCenter.Current.AddNotificationRequest(request, error =>
+//			{
+//				if (error != null)
+//				{
+//					Debug.WriteLine(error.Code);
+//					Debug.WriteLine(error.LocalizedFailureReason);
 //				}
-//			}
+//			});
+
+			var notification = new NSUserNotification
+			{
+				Title = "Super Wrapper Notifica!",
+				InformativeText = message.Body.ToString(),
+				SoundName = NSUserNotification.NSUserNotificationDefaultSoundName,
+				HasActionButton = true
+			};
+
+			NSUserNotificationCenter.DefaultUserNotificationCenter.DeliverNotification(notification);
+
 		}
 	}
 }
