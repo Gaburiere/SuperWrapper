@@ -1,35 +1,59 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:SuperWrapper"
-             xmlns:customRenderers="clr-namespace:SuperWrapper.CustomRenderers;assembly=SuperWrapper"
+             xmlns:vm="clr-namespace:SuperWrapper.ViewModel"
+             xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             x:Name="Main"
              x:Class="SuperWrapper.MainPage">
+    <ContentPage.BindingContext>
+        <vm:MainViewModel />
+    </ContentPage.BindingContext>
 
     <Grid
         BackgroundColor="Aqua">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
-        
-        <StackLayout
+
+        <ListView
+            BackgroundColor="Yellow"
             Grid.Column="0"
-            Orientation="Vertical">
-            <Image
-                HorizontalOptions="Center"
-                HeightRequest="50"
-                Aspect="AspectFit"
-                x:Name="WhatsAppButton"
-                Source="whatsapp.png">
-            </Image>
-        </StackLayout>
-        
-        <customRenderers:SuperWebView
-            x:Name="MainWebView"
-            Source="https://web.whatsapp.com/"
-            UserAgent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.70 Safari/537.36"
-            Grid.Column="1"/>
-        
+            ItemsSource="{Binding Contexts}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <ViewCell>
+                        <forms:CachedImage
+                            Margin="5"
+                            WidthRequest="50"
+                            HeightRequest="50"
+                            Aspect="AspectFit"
+                            BackgroundColor="{Binding ContextSelected, Converter={StaticResource ContextSelectedToBackgroundColorConverter}}"
+                            Source="{Binding ImageSource}">
+                            <forms:CachedImage.GestureRecognizers>
+                                <ClickGestureRecognizer
+                                    Command="{Binding Path=BindingContext.ClickCommand, Source={x:Reference Main}}"
+                                    CommandParameter="{Binding .}" />
+                            </forms:CachedImage.GestureRecognizers>
+                        </forms:CachedImage>
+
+                    </ViewCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
+
+        <ContentView
+            BackgroundColor="Blue"
+            Content="{Binding ActiveSuperWebView}"
+            Grid.Column="1" />
+
+
+        <!-- <forms:CachedImage -->
+        <!--     Grid.Column="1" -->
+        <!--     Source="{Binding Elena}" /> -->
+
+
     </Grid>
 
 </ContentPage>

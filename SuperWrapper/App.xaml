@@ -1,8 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Application xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:superWrapper="clr-namespace:SuperWrapper;assembly=SuperWrapper"
+             xmlns:converters="clr-namespace:SuperWrapper.Converters;assembly=SuperWrapper"
              x:Class="SuperWrapper.App">
     <Application.Resources>
-
+        <ResourceDictionary>
+            <converters:ContextSelectedToBackgroundColorConverter x:Key="ContextSelectedToBackgroundColorConverter" />
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

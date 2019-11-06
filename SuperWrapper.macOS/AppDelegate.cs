@@ -1,8 +1,6 @@
-﻿using System;
-using System.Diagnostics;
-using AppKit;
+﻿using AppKit;
+using FFImageLoading.Forms.Platform;
 using Foundation;
-using UserNotifications;
 
 namespace SuperWrapper.macOS
 {
@@ -25,7 +23,7 @@ namespace SuperWrapper.macOS
 //                    ? "Notification permission granted"
 //                    : $"Notification permission denied because of: {error.LocalizedDescription}");
 //            });
-            
+            CachedImageRenderer.Init();
             Xamarin.Forms.Forms.Init();
             LoadApplication(new App());
             base.DidFinishLaunching(notification);

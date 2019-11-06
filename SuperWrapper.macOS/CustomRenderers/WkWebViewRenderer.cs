@@ -1,11 +1,7 @@
-using System;
-using System.Diagnostics;
 using System.IO;
 using Foundation;
-using Newtonsoft.Json;
 using SuperWrapper.CustomRenderers;
 using SuperWrapper.macOS.CustomRenderers;
-using UserNotifications;
 using WebKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
