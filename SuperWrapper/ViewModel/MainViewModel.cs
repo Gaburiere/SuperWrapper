@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -15,11 +16,11 @@ namespace SuperWrapper.ViewModel
         
         [DoNotNotify] public ICommand ClickCommand { get; set; }
 
-
         public SuperWebView ActiveSuperWebView
         {
             get { return this.Contexts.SingleOrDefault(context => context.ContextSelected)?.SuperWebView; }
         }
+        
         public MainViewModel()
         {
             var whatsappContext =
@@ -28,8 +29,10 @@ namespace SuperWrapper.ViewModel
             
             this.Contexts = new ObservableCollection<SuperContext> {whatsappContext, telegramContext};
             
-            this.ClickCommand = new Command<SuperContext>(context =>
+            this.ClickCommand = new Command( e =>
             {
+                var eventArgs = (ItemTappedEventArgs) e;
+                var context = (SuperContext) eventArgs.Item;
                 this.Contexts.ForEach(f=> f.ContextSelected = false);
                 this.Contexts.Single(s => s == context).ContextSelected = true;
                 base.RaisePropertyChanged(() => this.ActiveSuperWebView);

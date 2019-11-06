@@ -9,14 +9,14 @@ namespace SuperWrapper.ViewModel
     {
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         
-        protected virtual void RaisePropertyChanged<T>(Expression<Func<T>> property)
+        protected void RaisePropertyChanged<T>(Expression<Func<T>> property)
         {
-            string propertyName = ((MemberExpression)property.Body).Member.Name;
+            var propertyName = ((MemberExpression)property.Body).Member.Name;
             this.OnPropertyChanged(propertyName);
         }
     }

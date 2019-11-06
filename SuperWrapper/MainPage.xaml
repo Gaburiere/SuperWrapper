@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:vm="clr-namespace:SuperWrapper.ViewModel"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:behaviors="clr-namespace:SuperWrapper.Behaviors;assembly=SuperWrapper"
              x:Name="Main"
              x:Class="SuperWrapper.MainPage">
     <ContentPage.BindingContext>
@@ -21,6 +22,12 @@
             BackgroundColor="Yellow"
             Grid.Column="0"
             ItemsSource="{Binding Contexts}">
+            <ListView.Behaviors>
+                <behaviors:EventToCommandBehavior 
+                    EventName="ItemTapped" 
+                    Command="{Binding Path=BindingContext.ClickCommand, Source={x:Reference Main}}"/>
+            </ListView.Behaviors>
+
             <ListView.ItemTemplate>
                 <DataTemplate>
                     <ViewCell>
@@ -31,11 +38,11 @@
                             Aspect="AspectFit"
                             BackgroundColor="{Binding ContextSelected, Converter={StaticResource ContextSelectedToBackgroundColorConverter}}"
                             Source="{Binding ImageSource}">
-                            <forms:CachedImage.GestureRecognizers>
-                                <ClickGestureRecognizer
-                                    Command="{Binding Path=BindingContext.ClickCommand, Source={x:Reference Main}}"
-                                    CommandParameter="{Binding .}" />
-                            </forms:CachedImage.GestureRecognizers>
+                            <!-- <forms:CachedImage.GestureRecognizers> -->
+                            <!--     <ClickGestureRecognizer -->
+                            <!--         Command="{Binding Path=BindingContext.ClickCommand, Source={x:Reference Main}}" -->
+                            <!--         CommandParameter="{Binding .}" /> -->
+                            <!-- </forms:CachedImage.GestureRecognizers> -->
                         </forms:CachedImage>
 
                     </ViewCell>

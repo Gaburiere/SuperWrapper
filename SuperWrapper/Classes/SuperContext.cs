@@ -1,8 +1,5 @@
-using System;
-using System.Windows.Input;
 using PropertyChanged;
 using SuperWrapper.CustomRenderers;
-using Xamarin.Forms;
 
 namespace SuperWrapper.Classes
 {
