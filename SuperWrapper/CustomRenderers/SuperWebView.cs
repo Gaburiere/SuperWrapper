@@ -15,5 +15,6 @@ namespace SuperWrapper.CustomRenderers
             get { return (string) GetValue(UserAgentProperty); }
             set { SetValue(UserAgentProperty, value); }
         }
+    
     }
 }

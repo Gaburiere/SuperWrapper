@@ -75,6 +75,8 @@ namespace SuperWrapper.macOS.CustomRenderers
 //				}
 //			});
 
+			var source = message.FrameInfo.Request.ToString();
+			var webbview = message.WebView;
 			var notification = new NSUserNotification
 			{
 				Title = "Super Wrapper Notifica!",

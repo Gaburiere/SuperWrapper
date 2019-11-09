@@ -38,11 +38,6 @@
                             Aspect="AspectFit"
                             BackgroundColor="{Binding ContextSelected, Converter={StaticResource ContextSelectedToBackgroundColorConverter}}"
                             Source="{Binding ImageSource}">
-                            <!-- <forms:CachedImage.GestureRecognizers> -->
-                            <!--     <ClickGestureRecognizer -->
-                            <!--         Command="{Binding Path=BindingContext.ClickCommand, Source={x:Reference Main}}" -->
-                            <!--         CommandParameter="{Binding .}" /> -->
-                            <!-- </forms:CachedImage.GestureRecognizers> -->
                         </forms:CachedImage>
 
                     </ViewCell>
@@ -51,16 +46,20 @@
         </ListView>
 
         <ContentView
-            BackgroundColor="Blue"
-            Content="{Binding ActiveSuperWebView}"
+            IsVisible="{Binding WhatsappVisible}"
+            Content="{Binding WhatsappSuperWebView}"
+            Grid.Column="1" />        
+        
+        <ContentView
+            IsVisible="{Binding TelegramVisible}"
+            Content="{Binding TelegramSuperWebView}"
             Grid.Column="1" />
-
-
-        <!-- <forms:CachedImage -->
-        <!--     Grid.Column="1" -->
-        <!--     Source="{Binding Elena}" /> -->
-
-
+        
+        <ContentView
+            IsVisible="{Binding SpotifyVisible}"
+            Content="{Binding SpotifySuperWebView}"
+            Grid.Column="1" />
+        
     </Grid>
 
 </ContentPage>

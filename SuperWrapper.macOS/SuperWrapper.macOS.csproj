@@ -153,6 +153,9 @@
   <ItemGroup>
     <BundleResource Include="Resources\telegram.png" />
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\spotify.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Mac\Xamarin.Mac.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>
