@@ -1,7 +1,11 @@
+using System;
 using System.IO;
+using AppKit;
 using Foundation;
 using SuperWrapper.CustomRenderers;
 using SuperWrapper.macOS.CustomRenderers;
+using SuperWrapper.Services;
+using SuperWrapper.Services.Impl;
 using WebKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.MacOS;
@@ -75,8 +79,16 @@ namespace SuperWrapper.macOS.CustomRenderers
 //				}
 //			});
 
-			var source = message.FrameInfo.Request.ToString(); //todo fare scopa con la souce dell'identifier del settingsservice
-			var webbview = message.WebView;
+			
+			var source = message.FrameInfo.Request.ToString();
+			var configuration = DependencyService.Get<IConfigurationService>().GetConfigurationBySource(source);
+			
+			SentLocalNotification(message, configuration);
+		}
+
+		private void SentLocalNotification(WKScriptMessage message,
+			(AvailableContexts Context, Guid Identifier, string Source) configuration)
+		{
 			var notification = new NSUserNotification
 			{
 				Title = "Super Wrapper Notifica!",
@@ -85,8 +97,25 @@ namespace SuperWrapper.macOS.CustomRenderers
 				HasActionButton = true
 			};
 
-			NSUserNotificationCenter.DefaultUserNotificationCenter.DeliverNotification(notification);
+			switch (configuration.Context)
+			{
+				case AvailableContexts.Whatsapp:
+					notification.Title = configuration.Context.ToString();
+					notification.ContentImage = NSImage.ImageNamed("whatsapp.png");
+					break;
+				case AvailableContexts.Telegram:
+					notification.Title = configuration.Context.ToString();
+					notification.ContentImage = NSImage.ImageNamed("telegram.png");
+					break;
+				case AvailableContexts.Spotify:
+					notification.Title = configuration.Context.ToString();
+					notification.ContentImage = NSImage.ImageNamed("spotify.png");
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 
+			NSUserNotificationCenter.DefaultUserNotificationCenter.DeliverNotification(notification);
 		}
 	}
 }

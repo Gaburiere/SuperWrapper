@@ -21,14 +21,14 @@ namespace SuperWrapper
 
         private void BuildIdentifiers()
         {
-            DependencyService.Get<ISettingsService>().BuildIdentifiers();
+            DependencyService.Get<IConfigurationService>().BuildIdentifiers();
         }
 
 
         private void ConfigureServices()
         {
             DependencyService.Register<IOneTimeService, OneTimeService>();
-            DependencyService.Register<ISettingsService, SettingsService>();
+            DependencyService.Register<IConfigurationService, ConfigurationService>();
         }
 
         protected override void OnStart()

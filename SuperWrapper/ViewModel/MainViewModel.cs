@@ -1,3 +1,4 @@
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
@@ -13,7 +14,10 @@ namespace SuperWrapper.ViewModel
 {
     public class MainViewModel : ViewModelBase
     {
-        private ISettingsService _settingsService;
+        private readonly IConfigurationService _configurationService;
+        private readonly (AvailableContexts Context, Guid Identifier, string Source) _whatsappConfiguration;
+        private readonly (AvailableContexts Context, Guid Identifier, string Source) _telegramConfiguration;
+        private readonly (AvailableContexts Context, Guid Identifier, string Source) _spotifyConfiguration;
         public ObservableCollection<SuperContext> Contexts { get; set; }
 
         [DoNotNotify] public ICommand ClickCommand { get; set; }
@@ -28,7 +32,7 @@ namespace SuperWrapper.ViewModel
             get
             {
                 var webView = this.Contexts.Single(context =>
-                        context.ContextIdentifier == this._settingsService.GetIdentifier(AvailableContexts.Whatsapp))
+                        context.ContextIdentifier == this._whatsappConfiguration.Identifier)
                     .SuperWebView;
                 return webView;
             }
@@ -39,7 +43,7 @@ namespace SuperWrapper.ViewModel
             get
             {
                 var webView = this.Contexts.Single(context =>
-                        context.ContextIdentifier == this._settingsService.GetIdentifier(AvailableContexts.Telegram))
+                        context.ContextIdentifier == this._telegramConfiguration.Identifier)
                     .SuperWebView;
                 return webView;
             }
@@ -50,7 +54,7 @@ namespace SuperWrapper.ViewModel
             get
             {
                 var webView = this.Contexts.Single(context =>
-                        context.ContextIdentifier == this._settingsService.GetIdentifier(AvailableContexts.Spotify))
+                        context.ContextIdentifier == this._spotifyConfiguration.Identifier)
                     .SuperWebView;
                 return webView;
             }
@@ -61,7 +65,7 @@ namespace SuperWrapper.ViewModel
             get
             {
                 var visibile = this.Contexts.Single(content =>
-                        content.ContextIdentifier == this._settingsService.GetIdentifier(AvailableContexts.Whatsapp))
+                        content.ContextIdentifier == this._whatsappConfiguration.Identifier)
                     .ContextSelected;
                 return visibile;
             }
@@ -72,7 +76,7 @@ namespace SuperWrapper.ViewModel
             get
             {
                 var visibile = this.Contexts.Single(content =>
-                        content.ContextIdentifier == this._settingsService.GetIdentifier(AvailableContexts.Telegram))
+                        content.ContextIdentifier == this._telegramConfiguration.Identifier)
                     .ContextSelected;
                 return visibile;
             }
@@ -83,7 +87,7 @@ namespace SuperWrapper.ViewModel
             get
             {
                 var visibile = this.Contexts.Single(content =>
-                        content.ContextIdentifier == this._settingsService.GetIdentifier(AvailableContexts.Spotify))
+                        content.ContextIdentifier == this._spotifyConfiguration.Identifier)
                     .ContextSelected;
                 return visibile;
             }
@@ -91,22 +95,24 @@ namespace SuperWrapper.ViewModel
 
         public MainViewModel()
         {
-            _settingsService = DependencyService.Get<ISettingsService>();
+            this._configurationService = DependencyService.Get<IConfigurationService>();
+            this._whatsappConfiguration = this._configurationService.GetConfiguration(AvailableContexts.Whatsapp);
+            this._telegramConfiguration = this._configurationService.GetConfiguration(AvailableContexts.Telegram);
+            this._spotifyConfiguration = this._configurationService.GetConfiguration(AvailableContexts.Spotify);
+            
             this.BuildContexts();
+            
             this.ClickCommand = new Command(this.InnerClick);
         }
 
         private void BuildContexts()
         {
-            var whatsappIdentifier = this._settingsService.GetIdentifier(AvailableContexts.Whatsapp);
-            var telegramIdentifier = this._settingsService.GetIdentifier(AvailableContexts.Telegram);
-            var spotifyIdentifier = this._settingsService.GetIdentifier(AvailableContexts.Spotify);
             var whatsappContext =
-                new SuperContext("https://web.whatsapp.com", "whatsapp.png", whatsappIdentifier)
-                    {ContextSelected = true};
-            var telegramContext = new SuperContext("https://web.telegram.org", "telegram.png", telegramIdentifier);
+                new SuperContext(this._whatsappConfiguration.Source, "whatsapp.png", this._whatsappConfiguration.Identifier) {ContextSelected = true};
+            var telegramContext = 
+                new SuperContext(this._telegramConfiguration.Source, "telegram.png", this._telegramConfiguration.Identifier);
             var spotifyContext =
-                new SuperContext("https://open.spotify.com", "spotify.png", spotifyIdentifier);
+                new SuperContext(this._spotifyConfiguration.Source, "spotify.png", this._spotifyConfiguration.Identifier);
 
             this.Contexts = new ObservableCollection<SuperContext> {whatsappContext, telegramContext, spotifyContext};
         }
