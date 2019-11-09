@@ -95,6 +95,7 @@ namespace SuperWrapper.ViewModel
 
         public MainViewModel()
         {
+            IConfigurationService configurationService;
             this._configurationService = DependencyService.Get<IConfigurationService>();
             this._whatsappConfiguration = this._configurationService.GetConfiguration(AvailableContexts.Whatsapp);
             this._telegramConfiguration = this._configurationService.GetConfiguration(AvailableContexts.Telegram);

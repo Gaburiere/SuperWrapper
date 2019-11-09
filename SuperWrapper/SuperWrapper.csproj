@@ -14,4 +14,10 @@
         <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
         <PackageReference Include="Xamarin.Forms" Version="4.3.0.947036" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Controls\SuperGrid.xaml.cs">
+        <DependentUpon>SuperGrid.xaml</DependentUpon>
+      </Compile>
+    </ItemGroup>
 </Project>

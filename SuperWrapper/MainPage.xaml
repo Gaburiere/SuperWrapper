@@ -5,6 +5,7 @@
              xmlns:vm="clr-namespace:SuperWrapper.ViewModel"
              xmlns:forms="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:behaviors="clr-namespace:SuperWrapper.Behaviors;assembly=SuperWrapper"
+             xmlns:controls="clr-namespace:SuperWrapper.Controls;assembly=SuperWrapper"
              x:Name="Main"
              x:Class="SuperWrapper.MainPage">
     <ContentPage.BindingContext>
@@ -44,21 +45,25 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+        
+        <controls:SuperGrid
+            Contexts="{Binding Contexts}"
+            Grid.Column="1"/>
 
-        <ContentView
-            IsVisible="{Binding WhatsappVisible}"
-            Content="{Binding WhatsappSuperWebView}"
-            Grid.Column="1" />        
-        
-        <ContentView
-            IsVisible="{Binding TelegramVisible}"
-            Content="{Binding TelegramSuperWebView}"
-            Grid.Column="1" />
-        
-        <ContentView
-            IsVisible="{Binding SpotifyVisible}"
-            Content="{Binding SpotifySuperWebView}"
-            Grid.Column="1" />
+        <!-- <ContentView -->
+        <!--     IsVisible="{Binding WhatsappVisible}" -->
+        <!--     Content="{Binding WhatsappSuperWebView}" -->
+        <!--     Grid.Column="1" />         -->
+        <!-- -->
+        <!-- <ContentView -->
+        <!--     IsVisible="{Binding TelegramVisible}" -->
+        <!--     Content="{Binding TelegramSuperWebView}" -->
+        <!--     Grid.Column="1" /> -->
+        <!-- -->
+        <!-- <ContentView -->
+        <!--     IsVisible="{Binding SpotifyVisible}" -->
+        <!--     Content="{Binding SpotifySuperWebView}" -->
+        <!--     Grid.Column="1" /> -->
         
     </Grid>
 

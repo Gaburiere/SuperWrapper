@@ -13,7 +13,7 @@ namespace SuperWrapper.Services.Impl
             
             this._configurations = new List<(AvailableContexts Context, Guid Identifier, string Source)>()
             {
-                (AvailableContexts.Telegram, Guid.NewGuid(), "https://web.telegram.org/#/im"),
+                (AvailableContexts.Telegram, Guid.NewGuid(), "https://web.telegram.org/"),
                 (AvailableContexts.Whatsapp, Guid.NewGuid(), "https://web.whatsapp.com/"), 
                 (AvailableContexts.Spotify, Guid.NewGuid(), "https://open.spotify.com")
             };
@@ -29,15 +29,12 @@ namespace SuperWrapper.Services.Impl
         public (AvailableContexts Context, Guid Identifier, string Source) GetConfigurationBySource(string source)
         {
             var tryConfiguration = this._configurations.SingleOrDefault(conf => conf.Source == source);
-            if (tryConfiguration == default)
-            {
-                var retryConfiguration = this.GetConfigurationBySourceLoosely(source);
-                if (retryConfiguration == default)
-                    throw new Exception($"Can't find configuration from source {source}");
-                return retryConfiguration;
-            }
-
-            return tryConfiguration;
+            if (tryConfiguration != default)
+                return tryConfiguration;
+            var retryConfiguration = this.GetConfigurationBySourceLoosely(source);
+            if (retryConfiguration == default)
+                throw new Exception($"Can't find configuration from source {source}");
+            return retryConfiguration;
         }
 
         private (AvailableContexts Context, Guid Identifier, string Source) GetConfigurationBySourceLoosely(string source)
