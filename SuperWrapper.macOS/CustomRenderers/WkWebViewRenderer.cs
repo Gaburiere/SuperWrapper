@@ -75,7 +75,7 @@ namespace SuperWrapper.macOS.CustomRenderers
 //				}
 //			});
 
-			var source = message.FrameInfo.Request.ToString();
+			var source = message.FrameInfo.Request.ToString(); //todo fare scopa con la souce dell'identifier del settingsservice
 			var webbview = message.WebView;
 			var notification = new NSUserNotification
 			{

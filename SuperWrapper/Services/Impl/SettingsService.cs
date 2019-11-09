@@ -5,7 +5,7 @@ namespace SuperWrapper.Services.Impl
 {
     public class SettingsService : ISettingsService
     {
-        public Dictionary<AvailableContexts, Guid> Identifiers { get; set; } //todo cambiare in named tuple ed aggiungere l'url
+        public Dictionary<AvailableContexts, Guid> Identifiers { get; set; } //todo cambiare in named tuple ed aggiungere l'url per poi riprenderselo nel custom renderer per capire chi ti sta notificando
 
         public void BuildIdentifiers()
         {
