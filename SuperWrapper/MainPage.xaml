@@ -56,6 +56,16 @@
             Grid.Column="1" />
         
         <ContentView
+            IsVisible="{Binding GmailVisible}"
+            Content="{Binding GmailSuperWebView}"
+            Grid.Column="1" />
+        
+        <ContentView
+            IsVisible="{Binding SkypeVisible}"
+            Content="{Binding SkypeSuperWebView}"
+            Grid.Column="1" />
+        
+        <ContentView
             IsVisible="{Binding SpotifyVisible}"
             Content="{Binding SpotifySuperWebView}"
             Grid.Column="1" />

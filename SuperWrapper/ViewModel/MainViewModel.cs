@@ -18,6 +18,8 @@ namespace SuperWrapper.ViewModel
         private readonly (AvailableContexts Context, Guid Identifier, string Source) _whatsappConfiguration;
         private readonly (AvailableContexts Context, Guid Identifier, string Source) _telegramConfiguration;
         private readonly (AvailableContexts Context, Guid Identifier, string Source) _spotifyConfiguration;
+        private readonly (AvailableContexts Context, Guid Identifier, string Source) _gmailConfiguration;
+        private readonly (AvailableContexts Context, Guid Identifier, string Source) _skypeConfiguration;
         public ObservableCollection<SuperContext> Contexts { get; set; }
 
         [DoNotNotify] public ICommand ClickCommand { get; set; }
@@ -59,6 +61,28 @@ namespace SuperWrapper.ViewModel
                 return webView;
             }
         }
+        
+        public SuperWebView GmailSuperWebView
+        {
+            get
+            {
+                var webView = this.Contexts.Single(context =>
+                        context.ContextIdentifier == this._gmailConfiguration.Identifier)
+                    .SuperWebView;
+                return webView;
+            }
+        }
+        
+        public SuperWebView SkypeSuperWebView
+        {
+            get
+            {
+                var webView = this.Contexts.Single(context =>
+                        context.ContextIdentifier == this._skypeConfiguration.Identifier)
+                    .SuperWebView;
+                return webView;
+            }
+        }
 
         public bool WhatsappVisible
         {
@@ -92,13 +116,38 @@ namespace SuperWrapper.ViewModel
                 return visibile;
             }
         }
+        
+        public bool GmailVisible
+        {
+            get
+            {
+                var visibile = this.Contexts.Single(content =>
+                        content.ContextIdentifier == this._gmailConfiguration.Identifier)
+                    .ContextSelected;
+                return visibile;
+            }
+        }
+        
+        public bool SkypeVisible
+        {
+            get
+            {
+                var visibile = this.Contexts.Single(content =>
+                        content.ContextIdentifier == this._skypeConfiguration.Identifier)
+                    .ContextSelected;
+                return visibile;
+            }
+        }
 
         public MainViewModel()
         {
+            IConfigurationService configurationService;
             this._configurationService = DependencyService.Get<IConfigurationService>();
             this._whatsappConfiguration = this._configurationService.GetConfiguration(AvailableContexts.Whatsapp);
             this._telegramConfiguration = this._configurationService.GetConfiguration(AvailableContexts.Telegram);
             this._spotifyConfiguration = this._configurationService.GetConfiguration(AvailableContexts.Spotify);
+            this._gmailConfiguration = this._configurationService.GetConfiguration(AvailableContexts.Gmail);
+            this._skypeConfiguration = this._configurationService.GetConfiguration(AvailableContexts.Skype);
             
             this.BuildContexts();
             
@@ -113,8 +162,12 @@ namespace SuperWrapper.ViewModel
                 new SuperContext(this._telegramConfiguration.Source, "telegram.png", this._telegramConfiguration.Identifier);
             var spotifyContext =
                 new SuperContext(this._spotifyConfiguration.Source, "spotify.png", this._spotifyConfiguration.Identifier);
+            var gmailContext =
+                new SuperContext(this._gmailConfiguration.Source, "gmail.png", this._gmailConfiguration.Identifier);
+            var skypeContext =
+                new SuperContext(this._skypeConfiguration.Source, "skype.png", this._skypeConfiguration.Identifier);
 
-            this.Contexts = new ObservableCollection<SuperContext> {whatsappContext, telegramContext, spotifyContext};
+            this.Contexts = new ObservableCollection<SuperContext> {whatsappContext, telegramContext, skypeContext, gmailContext, spotifyContext};
         }
 
         private void InnerClick(object e)
@@ -123,9 +176,12 @@ namespace SuperWrapper.ViewModel
             var context = (SuperContext) eventArgs.Item;
             this.Contexts.ForEach(f => f.ContextSelected = false);
             this.Contexts.Single(s => s == context).ContextSelected = true;
+            
             base.RaisePropertyChanged(() => this.WhatsappVisible);
             base.RaisePropertyChanged(() => this.TelegramVisible);
             base.RaisePropertyChanged(() => this.SpotifyVisible);
+            base.RaisePropertyChanged(() => this.GmailVisible);
+            base.RaisePropertyChanged(() => this.SkypeVisible);
         }
     }
 }

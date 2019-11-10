@@ -15,7 +15,9 @@ namespace SuperWrapper.Services.Impl
             {
                 (AvailableContexts.Telegram, Guid.NewGuid(), "https://web.telegram.org/#/im"),
                 (AvailableContexts.Whatsapp, Guid.NewGuid(), "https://web.whatsapp.com/"), 
-                (AvailableContexts.Spotify, Guid.NewGuid(), "https://open.spotify.com")
+                (AvailableContexts.Spotify, Guid.NewGuid(), "https://open.spotify.com"),
+                (AvailableContexts.Gmail, Guid.NewGuid(), "https://mail.google.com/"),
+                (AvailableContexts.Skype, Guid.NewGuid(), "https://web.skype.com/")
             };
         }
 
@@ -48,7 +50,10 @@ namespace SuperWrapper.Services.Impl
                 return this._configurations.Single(config => config.Context == AvailableContexts.Telegram);
             if (source.Contains("spotify"))
                 return this._configurations.Single(config => config.Context == AvailableContexts.Spotify);
-            
+            if (source.Contains("gmail"))
+                return this._configurations.Single(config => config.Context == AvailableContexts.Gmail);
+            if (source.Contains("skype"))
+                return this._configurations.Single(config => config.Context == AvailableContexts.Skype);
             return default;
         }
     }
@@ -57,6 +62,8 @@ namespace SuperWrapper.Services.Impl
     {
         Whatsapp,
         Telegram,
-        Spotify
+        Spotify,
+        Gmail,
+        Skype
     }
 }

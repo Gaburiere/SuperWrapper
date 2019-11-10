@@ -111,6 +111,14 @@ namespace SuperWrapper.macOS.CustomRenderers
 					notification.Title = configuration.Context.ToString();
 					notification.ContentImage = NSImage.ImageNamed("spotify.png");
 					break;
+				case AvailableContexts.Gmail:
+					notification.Title = configuration.Context.ToString();
+					notification.ContentImage = NSImage.ImageNamed("gmail.png");
+					break;
+				case AvailableContexts.Skype:
+					notification.Title = configuration.Context.ToString();
+					notification.ContentImage = NSImage.ImageNamed("skype.png");
+					break;
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
